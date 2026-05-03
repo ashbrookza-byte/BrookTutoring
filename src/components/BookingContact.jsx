@@ -1,62 +1,118 @@
 import { useState } from 'react'
 import { useFadeIn } from '../hooks/useFadeIn.js'
 
-export default function BookingContact() {
-  const [form, setForm] = useState({ name: '', subject: '', message: '' })
-  const [sent, setSent] = useState(false)
+const CONTACT_ITEMS = [
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.59a16 16 0 0 0 5.5 5.5l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+      </svg>
+    ),
+    label: 'Phone',
+    value: '(+27) 83 501 1142',
+    href: 'tel:+27835011142',
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    ),
+    label: 'Email',
+    value: 'info@brooktutoring.com',
+    href: 'mailto:info@brooktutoring.com',
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+    ),
+    label: 'Location',
+    value: 'Menlyn, Pretoria, South Africa',
+    href: null,
+  },
+]
 
-  const titleRef = useFadeIn({ delay: 0,   distance: 16 })
-  const leftRef  = useFadeIn({ delay: 100, distance: 24 })
-  const rightRef = useFadeIn({ delay: 200, distance: 24 })
+export default function BookingContact() {
+  const [form, setForm] = useState({ firstName: '', lastName: '', subject: '', message: '' })
+  const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const leftRef  = useFadeIn({ delay: 0,   distance: 24 })
+  const rightRef = useFadeIn({ delay: 150, distance: 24 })
+
+  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }))
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSent(true)
-    setForm({ name: '', subject: '', message: '' })
-    setTimeout(() => setSent(false), 5000)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setSent(true)
+      setForm({ firstName: '', lastName: '', subject: '', message: '' })
+      setTimeout(() => setSent(false), 6000)
+    }, 900)
   }
 
   return (
-    <section style={styles.section} id="contact">
-      <div ref={titleRef} style={styles.titleWrap}>
-        <h2 style={styles.bigTitle}>
-          <span style={styles.regularTitle}>Book with </span>
-          <span style={styles.scriptTitle}>Brook Tutoring </span>
-          <span style={styles.regularTitle}>today!</span>
-        </h2>
-      </div>
+    <section style={s.section} id="contact">
+      {/* Orb */}
+      <div style={s.orb} />
+      <div style={s.texture} />
 
-      <div style={styles.inner}>
-        {/* Left — contact form */}
-        <div ref={leftRef} style={styles.left}>
-          <h3 style={styles.sectionLabel}>Contact us</h3>
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Enter a first name</label>
-              <input
-                type="text"
-                placeholder="First name"
-                value={form.name}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                style={styles.input}
-                required
-              />
+      <div style={s.inner}>
+        {/* Left */}
+        <div ref={leftRef} style={s.left}>
+          <span style={s.eyebrow}>Get in touch</span>
+          <h2 style={s.title}>
+            Ready to <em style={s.titleEm}>get started?</em>
+          </h2>
+          <p style={s.sub}>
+            Tell us your child's grade, the subject they need help with, and we'll match
+            them with the perfect tutor — usually within 24 hours.
+          </p>
+
+          <div style={s.contactList}>
+            {CONTACT_ITEMS.map((item) => (
+              <div key={item.label} style={s.contactItem}>
+                <div style={s.contactIcon}>{item.icon}</div>
+                <div>
+                  <p style={s.contactLabel}>{item.label}</p>
+                  {item.href
+                    ? <a href={item.href} style={s.contactValue}>{item.value}</a>
+                    : <p style={s.contactValue}>{item.value}</p>
+                  }
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={s.social}>
+            {['Instagram', 'Facebook', 'TikTok'].map(name => (
+              <a key={name} href="#" style={s.socialBtn}>{name}</a>
+            ))}
+          </div>
+        </div>
+
+        {/* Right — form card */}
+        <div ref={rightRef} style={s.formCard}>
+          <h3 style={s.formTitle}>Send us a message</h3>
+          <form onSubmit={handleSubmit} style={s.form}>
+            <div style={s.row}>
+              <div style={s.group}>
+                <label style={s.label}>First name</label>
+                <input style={s.input} placeholder="Jane" value={form.firstName} onChange={set('firstName')} required />
+              </div>
+              <div style={s.group}>
+                <label style={s.label}>Last name</label>
+                <input style={s.input} placeholder="Smith" value={form.lastName} onChange={set('lastName')} />
+              </div>
             </div>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Enter a last name</label>
-              <input
-                type="text"
-                placeholder="Last name"
-                style={styles.input}
-              />
-            </div>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Subject needed</label>
-              <select
-                value={form.subject}
-                onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                style={styles.input}
-              >
+            <div style={s.group}>
+              <label style={s.label}>Subject needed</label>
+              <select style={s.input} value={form.subject} onChange={set('subject')}>
                 <option value="">Select a subject…</option>
                 <option>Mathematics</option>
                 <option>Science (Biology / Chemistry / Physics)</option>
@@ -66,171 +122,141 @@ export default function BookingContact() {
                 <option>Other</option>
               </select>
             </div>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Message</label>
+            <div style={s.group}>
+              <label style={s.label}>Tell us more</label>
               <textarea
-                placeholder="Grade level, current challenges, availability…"
+                style={{ ...s.input, resize: 'vertical' }}
                 rows={4}
+                placeholder="Grade level, current challenges, your availability…"
                 value={form.message}
-                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                style={{ ...styles.input, resize: 'vertical' }}
+                onChange={set('message')}
               />
             </div>
-            <button type="submit" style={styles.submitBtn}>Send Message</button>
+            <button type="submit" style={s.submitBtn} disabled={loading}>
+              {loading ? 'Sending…' : 'Send Message'}
+              {!loading && (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              )}
+            </button>
             {sent && (
-              <p style={styles.success}>✓ Message sent! We'll be in touch within 24 hours.</p>
+              <div style={s.success}>
+                ✓ Message received! We'll be in touch within 24 hours.
+              </div>
             )}
           </form>
-        </div>
-
-        {/* Right — contact details */}
-        <div ref={rightRef} style={styles.right}>
-          <ul style={styles.details}>
-            <li style={styles.detailItem}>
-              <a href="tel:+27835011142" style={styles.detailLink}>(+27) 83 501 1142</a>
-            </li>
-            <li style={styles.detailItem}>
-              <a href="mailto:info@brooktutoring.com" style={styles.detailLink}>info@brooktutoring.com</a>
-            </li>
-            <li style={styles.detailItem}>
-              <span style={styles.detailText}>Menlyn, Pretoria, South Africa</span>
-            </li>
-          </ul>
-
-          <div style={styles.social}>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" style={styles.socialBtn}>Instagram</a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" style={styles.socialBtn}>Facebook</a>
-            <a href="https://tiktok.com" target="_blank" rel="noreferrer" style={styles.socialBtn}>TikTok</a>
-          </div>
         </div>
       </div>
     </section>
   )
 }
 
-const styles = {
+const s = {
   section: {
-    background: '#faf5ef',
-    padding: '80px 40px',
+    background: 'var(--dark-2)',
+    padding: '100px 32px',
+    position: 'relative', overflow: 'hidden',
   },
-  titleWrap: {
-    textAlign: 'center',
-    marginBottom: 60,
+  orb: {
+    position: 'absolute', top: '-20%', right: '-10%',
+    width: 600, height: 600, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 65%)',
+    pointerEvents: 'none',
   },
-  bigTitle: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
-    fontWeight: 400,
-    color: '#1a1a1a',
-  },
-  regularTitle: {
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 400,
-  },
-  scriptTitle: {
-    fontFamily: "'Dancing Script', cursive",
-    fontWeight: 600,
+  texture: {
+    position: 'absolute', inset: 0, pointerEvents: 'none',
+    backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)',
+    backgroundSize: '32px 32px',
   },
   inner: {
-    display: 'grid',
-    gridTemplateColumns: '1.2fr 1fr',
-    gap: 80,
-    maxWidth: 1000,
-    margin: '0 auto',
-    alignItems: 'start',
+    position: 'relative', zIndex: 1,
+    maxWidth: 1100, margin: '0 auto',
+    display: 'grid', gridTemplateColumns: '1fr 1.1fr',
+    gap: 72, alignItems: 'start',
   },
-  left: {},
-  sectionLabel: {
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 600,
-    fontSize: '1.1rem',
-    color: '#1a1a1a',
-    marginBottom: 24,
+  left: { display: 'flex', flexDirection: 'column', gap: 32 },
+  eyebrow: {
+    display: 'inline-block',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+    color: 'var(--green)',
   },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 0,
+  title: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontWeight: 700, color: '#fff', lineHeight: 1.2,
   },
-  formGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 6,
-    marginBottom: 18,
+  titleEm: { fontStyle: 'italic', color: 'var(--green)' },
+  sub: {
+    fontFamily: 'var(--font-sans)', fontSize: '1rem',
+    color: 'rgba(255,255,255,0.5)', lineHeight: 1.8, marginTop: -8,
   },
+  contactList: { display: 'flex', flexDirection: 'column', gap: 20 },
+  contactItem: { display: 'flex', alignItems: 'flex-start', gap: 16 },
+  contactIcon: {
+    width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+    background: 'rgba(34,197,94,0.12)', color: 'var(--green)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+  },
+  contactLabel: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.75rem',
+    color: 'rgba(255,255,255,0.35)', marginBottom: 3, fontWeight: 500,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+  },
+  contactValue: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.95rem',
+    color: 'rgba(255,255,255,0.8)', fontWeight: 400, textDecoration: 'none',
+  },
+  social: { display: 'flex', gap: 10, flexWrap: 'wrap' },
+  socialBtn: {
+    padding: '7px 18px',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.8rem',
+    color: 'rgba(255,255,255,0.45)',
+    textDecoration: 'none',
+    transition: 'border-color 0.2s, color 0.2s',
+  },
+  formCard: {
+    background: '#fff', borderRadius: 20,
+    padding: '40px 36px',
+    boxShadow: '0 24px 64px rgba(0,0,0,0.3)',
+  },
+  formTitle: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.4rem', fontWeight: 700,
+    color: 'var(--dark-2)', marginBottom: 28,
+  },
+  form: { display: 'flex', flexDirection: 'column', gap: 18 },
+  row: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
+  group: { display: 'flex', flexDirection: 'column', gap: 6 },
   label: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.8rem',
-    color: '#888',
-    fontWeight: 400,
+    fontFamily: 'var(--font-sans)', fontSize: '0.8rem',
+    fontWeight: 600, color: 'var(--slate)',
   },
   input: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
-    color: '#333',
-    background: '#fff',
-    border: '1px solid #d8d0c8',
-    borderRadius: 4,
-    padding: '10px 14px',
-    outline: 'none',
-    transition: 'border-color 0.2s',
-    width: '100%',
+    fontFamily: 'var(--font-sans)', fontSize: '0.9rem',
+    color: 'var(--dark-3)', background: 'var(--light)',
+    border: '1.5px solid var(--border)', borderRadius: 10,
+    padding: '11px 14px', outline: 'none', width: '100%',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
   },
   submitBtn: {
-    padding: '12px 28px',
-    background: '#3db843',
-    color: '#fff',
-    border: 'none',
-    borderRadius: 4,
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
-    fontWeight: 500,
-    cursor: 'pointer',
-    transition: 'background 0.2s',
-    marginTop: 4,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    padding: '13px 28px',
+    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+    color: '#fff', border: 'none', borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 600,
+    cursor: 'pointer', width: '100%', marginTop: 4,
+    boxShadow: '0 4px 20px rgba(34,197,94,0.3)',
+    transition: 'opacity 0.2s',
   },
   success: {
-    marginTop: 14,
-    color: '#3db843',
-    fontWeight: 600,
-    fontSize: '0.9rem',
+    background: 'rgba(34,197,94,0.1)', color: '#16a34a',
+    border: '1px solid rgba(34,197,94,0.25)',
+    borderRadius: 10, padding: '12px 16px',
+    fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 600,
     textAlign: 'center',
-  },
-  right: {
-    paddingTop: 40,
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 16,
-    marginBottom: 32,
-  },
-  detailItem: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.95rem',
-  },
-  detailLink: {
-    color: '#1a1a1a',
-    textDecoration: 'none',
-    transition: 'color 0.2s',
-  },
-  detailText: {
-    color: '#666',
-  },
-  social: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  socialBtn: {
-    display: 'inline-block',
-    padding: '7px 18px',
-    border: '1px solid #ccc',
-    borderRadius: 50,
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.8rem',
-    color: '#666',
-    textDecoration: 'none',
-    transition: 'all 0.2s',
   },
 }

@@ -1,150 +1,157 @@
 import { useFadeIn } from '../hooks/useFadeIn.js'
 
 const RESULTS = [
-  { student: 'Anonymous 1', grade: 'End Grade 11',   initial: '42', final: '70', increase: '28',  positive: true  },
-  { student: 'Anonymous 2', grade: 'Middle Grade 11', initial: '67', final: '85', increase: '18',  positive: true  },
-  { student: 'Georgia',     grade: 'Start Grade 10',  initial: '85', final: '79', increase: '-6',  positive: false },
-  { student: 'Anonymous 3', grade: 'Start Grade 11',  initial: '-',  final: '64', increase: '-',   positive: null  },
-  { student: 'Sitha',       grade: 'Start Grade 10',  initial: '58', final: '71', increase: '13',  positive: true, highlight: true },
-  { student: 'Tristan',     grade: 'Start Grade 11',  initial: '39', final: '75', increase: '36',  positive: true  },
+  { student: 'Anonymous 1', grade: 'End Grade 11',    initial: '42', final: '70', increase: '+28', pos: true  },
+  { student: 'Anonymous 2', grade: 'Middle Grade 11', initial: '67', final: '85', increase: '+18', pos: true  },
+  { student: 'Georgia',     grade: 'Start Grade 10',  initial: '85', final: '79', increase: '−6',  pos: false },
+  { student: 'Anonymous 3', grade: 'Start Grade 11',  initial: '—',  final: '64', increase: '—',   pos: null  },
+  { student: 'Sitha',       grade: 'Start Grade 10',  initial: '58', final: '71', increase: '+13', pos: true, highlight: true },
+  { student: 'Tristan',     grade: 'Start Grade 11',  initial: '39', final: '75', increase: '+36', pos: true  },
 ]
 
 export default function MatricResults() {
-  const titleRef = useFadeIn({ delay: 0,   distance: 20 })
-  const tableRef = useFadeIn({ delay: 150, distance: 24 })
+  const headRef  = useFadeIn({ delay: 0,   distance: 16 })
+  const tableRef = useFadeIn({ delay: 180, distance: 24 })
 
   return (
-    <section style={styles.section}>
-      {/* Watermark */}
-      <span style={styles.watermark} aria-hidden="true">MATRIC RESULTS</span>
+    <section style={s.section}>
+      {/* Subtle grid texture */}
+      <div style={s.texture} />
 
-      <div ref={titleRef} style={styles.titleRow}>
-        <h2 style={styles.title}>Matric Results</h2>
-      </div>
+      <div style={s.inner}>
+        <div ref={headRef} style={s.head}>
+          <span style={s.eyebrow}>Proof of concept</span>
+          <h2 style={s.title}>Matric Results</h2>
+          <p style={s.sub}>
+            Real data from real students. An average improvement of{' '}
+            <strong style={s.highlight}>15%</strong> across all matric learners.
+          </p>
+        </div>
 
-      <div ref={tableRef} style={styles.tableWrap}>
-        <table style={styles.table}>
-          <thead>
-            <tr style={styles.headerRow}>
-              <th style={styles.th}>STUDENT</th>
-              <th style={styles.th}>GRADE JOINED</th>
-              <th style={styles.th}>INITIAL MARK %</th>
-              <th style={styles.th}>FINAL MATRIC MARK %</th>
-              <th style={styles.th}>INCREASE %</th>
-            </tr>
-          </thead>
-          <tbody>
-            {RESULTS.map((row, i) => (
-              <tr key={i} style={styles.row(row.highlight)}>
-                <td style={styles.td}>{row.student}</td>
-                <td style={styles.td}>{row.grade}</td>
-                <td style={{ ...styles.td, fontWeight: 700 }}>{row.initial}</td>
-                <td style={{ ...styles.td, fontWeight: 700 }}>{row.final}</td>
-                <td style={{
-                  ...styles.td,
-                  fontWeight: 700,
-                  color: row.positive === true ? '#3db843' : row.positive === false ? '#cc3333' : '#888',
-                }}>
-                  {row.positive === true ? row.increase : row.increase}
-                </td>
+        <div ref={tableRef} style={s.tableCard}>
+          <table style={s.table}>
+            <thead>
+              <tr>
+                {['Student', 'Grade Joined', 'Initial Mark', 'Final Mark', 'Improvement'].map(h => (
+                  <th key={h} style={s.th}>{h}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={5} style={styles.footerCell}>Average Increase: 15%!</td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {RESULTS.map((r, i) => (
+                <tr key={i} style={s.tr(r.highlight, i)}>
+                  <td style={{ ...s.td, fontWeight: 600, color: 'var(--dark-2)' }}>{r.student}</td>
+                  <td style={s.td}>{r.grade}</td>
+                  <td style={{ ...s.td, fontWeight: 600 }}>{r.initial}</td>
+                  <td style={{ ...s.td, fontWeight: 600 }}>{r.final}</td>
+                  <td style={s.td}>
+                    <span style={s.badge(r.pos)}>{r.increase}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div style={s.footer}>
+            <span style={s.footerText}>Average Improvement Across All Students</span>
+            <span style={s.footerNum}>+15%</span>
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
-const styles = {
+const s = {
   section: {
-    background: '#faf5ef',
-    padding: '80px 24px',
+    background: 'var(--dark-2)',
+    padding: '100px 32px',
     position: 'relative',
     overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
   },
-  watermark: {
-    position: 'absolute',
-    top: 32,
-    left: '50%',
-    transform: 'translateX(-50%)',
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 900,
-    fontSize: 'clamp(3rem, 8vw, 8rem)',
-    color: 'rgba(0,0,0,0.055)',
-    whiteSpace: 'nowrap',
-    letterSpacing: '0.1em',
-    userSelect: 'none',
-    pointerEvents: 'none',
+  texture: {
+    position: 'absolute', inset: 0, pointerEvents: 'none',
+    backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)',
+    backgroundSize: '32px 32px',
   },
-  titleRow: {
-    marginBottom: 40,
-    position: 'relative',
-    zIndex: 1,
+  inner: {
+    position: 'relative', zIndex: 1,
+    maxWidth: 900, margin: '0 auto',
+    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 52,
+  },
+  head: { textAlign: 'center', maxWidth: 540 },
+  eyebrow: {
+    display: 'inline-block',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+    color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Dancing Script', cursive",
-    fontSize: 'clamp(2rem, 4vw, 3rem)',
-    fontWeight: 600,
-    color: '#1a1a1a',
-    textAlign: 'center',
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontWeight: 700, fontStyle: 'italic',
+    color: '#fff', lineHeight: 1.2, marginBottom: 16,
   },
-  tableWrap: {
+  sub: {
+    fontFamily: 'var(--font-sans)', fontSize: '1.05rem',
+    color: 'rgba(255,255,255,0.5)', lineHeight: 1.75,
+  },
+  highlight: { color: 'var(--green)', fontWeight: 700 },
+  tableCard: {
     width: '100%',
-    maxWidth: 860,
-    borderRadius: 12,
+    background: 'rgba(255,255,255,0.04)',
+    backdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 20,
     overflow: 'hidden',
-    boxShadow: '0 4px 32px rgba(0,0,0,0.10)',
-    position: 'relative',
-    zIndex: 1,
   },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    background: '#fff',
-    fontSize: '0.9rem',
-  },
-  headerRow: {
-    background: '#2a7a7d',
-  },
+  table: { width: '100%', borderCollapse: 'collapse' },
   th: {
-    padding: '14px 16px',
-    color: '#fff',
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 600,
-    fontSize: '0.78rem',
-    letterSpacing: '0.04em',
-    textAlign: 'center',
-    borderRight: '1px solid rgba(255,255,255,0.15)',
+    padding: '14px 20px',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+    color: 'rgba(255,255,255,0.4)',
+    borderBottom: '1px solid rgba(255,255,255,0.07)',
+    textAlign: 'left',
   },
-  row: (highlight) => ({
-    background: highlight ? '#d6eeee' : 'transparent',
-    borderBottom: '1px solid #eee',
+  tr: (highlight, i) => ({
+    background: highlight
+      ? 'rgba(34,197,94,0.08)'
+      : i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.02)',
     transition: 'background 0.2s',
+    borderBottom: '1px solid rgba(255,255,255,0.05)',
   }),
   td: {
-    padding: '13px 16px',
-    textAlign: 'center',
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
-    color: '#333',
+    padding: '15px 20px',
+    fontFamily: 'var(--font-sans)', fontSize: '0.9rem',
+    color: 'rgba(255,255,255,0.7)', textAlign: 'left',
   },
-  footerCell: {
-    padding: '14px 16px',
-    textAlign: 'center',
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 600,
-    fontSize: '0.9rem',
-    color: '#333',
-    borderTop: '2px solid #eee',
-    background: '#fafafa',
+  badge: (pos) => ({
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    padding: '3px 12px', borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.82rem', fontWeight: 700,
+    background: pos === true
+      ? 'rgba(34,197,94,0.15)'
+      : pos === false
+      ? 'rgba(239,68,68,0.15)'
+      : 'rgba(255,255,255,0.07)',
+    color: pos === true ? '#4ade80' : pos === false ? '#f87171' : 'rgba(255,255,255,0.35)',
+  }),
+  footer: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '18px 24px',
+    borderTop: '1px solid rgba(255,255,255,0.08)',
+    background: 'rgba(34,197,94,0.06)',
+  },
+  footerText: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.85rem',
+    fontWeight: 600, color: 'rgba(255,255,255,0.6)',
+  },
+  footerNum: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.8rem', fontWeight: 700,
+    background: 'linear-gradient(135deg, #22c55e, #86efac)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
   },
 }

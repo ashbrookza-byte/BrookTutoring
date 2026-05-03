@@ -1,153 +1,213 @@
-import { useFadeIn } from '../hooks/useFadeIn.js'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useFadeIn } from '../hooks/useFadeIn.js'
 
 const SUBJECTS = [
   {
     name: 'Mathematics',
-    desc: 'Master the complexities of maths with our expert tutors. From algebra to calculus, we provide comprehensive support tailored to your learning pace and style.',
+    icon: '∑',
+    color: '#22c55e', bg: 'rgba(34,197,94,0.08)', border: 'rgba(34,197,94,0.2)',
+    grades: 'Grade 6 – 12',
+    desc: 'From number sense to calculus. We build genuine mathematical confidence through clear explanation, worked examples, and patient practice.',
+    tags: ['Algebra', 'Geometry', 'Trigonometry', 'Calculus'],
   },
   {
     name: 'Science',
-    desc: 'Unleash your scientific curiosity with our engaging science tutors. Whether it\'s biology, chemistry, or physics, we make learning science exciting and understandable.',
+    icon: '⚗',
+    color: '#6366f1', bg: 'rgba(99,102,241,0.08)', border: 'rgba(99,102,241,0.2)',
+    grades: 'Grade 8 – 12',
+    desc: 'Biology, chemistry, and physics taught through real-world context. We make abstract concepts concrete and testable.',
+    tags: ['Biology', 'Chemistry', 'Physics'],
   },
   {
     name: 'English',
-    desc: 'Immerse yourself in the world of English. Our language tutors provide personalised lessons, helping you become fluent and confident in your English skills. Join us to enhance your communication skills.',
+    icon: '✍',
+    color: '#f97316', bg: 'rgba(249,115,22,0.08)', border: 'rgba(249,115,22,0.2)',
+    grades: 'Grade 4 – 12',
+    desc: 'Language fluency, essay structure, comprehension, and oral work. Clear communication is a life skill — we teach it properly.',
+    tags: ['Essays', 'Comprehension', 'Language', 'Oral'],
   },
   {
     name: 'Accounting',
-    desc: 'Expert accounting guidance! Our tutors provide tailored support from basic bookkeeping to advanced financial analysis. Achieve your accounting goals with us today!',
+    icon: '₿',
+    color: '#14b8a6', bg: 'rgba(20,184,166,0.08)', border: 'rgba(20,184,166,0.2)',
+    grades: 'Grade 8 – 12',
+    desc: 'From basic bookkeeping to financial statements and analysis. We make the numbers logical, not intimidating.',
+    tags: ['Bookkeeping', 'Statements', 'Analysis'],
   },
   {
     name: 'Afrikaans',
-    desc: 'Learn Afrikaans with our dedicated tutors. We make mastering the language enjoyable and approachable, helping you build confidence in your skills!',
+    icon: 'Aa',
+    color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)',
+    grades: 'Grade 4 – 12',
+    desc: 'First and second language Afrikaans — grammar, comprehension, writing, and oral preparation covered with patience and care.',
+    tags: ['Grammar', 'Comprehension', 'Writing', 'Oral'],
   },
 ]
 
-function SubjectCard({ name, desc, delay }) {
+function SubjectCard({ s: subj, delay }) {
+  const [hovered, setHovered] = useState(false)
   const ref = useFadeIn({ delay, distance: 20 })
+
   return (
-    <div ref={ref} style={styles.card}>
-      <h3 style={styles.cardTitle}>{name}</h3>
-      <p style={styles.cardDesc}>{desc}</p>
-      <Link to="/tutors" style={styles.btn}>Find a Tutor</Link>
+    <div
+      ref={ref}
+      style={{
+        ...styles.card,
+        borderColor: hovered ? subj.border : 'var(--border)',
+        transform: hovered ? 'translateY(-6px)' : 'none',
+        boxShadow: hovered ? `0 16px 40px rgba(0,0,0,0.10)` : 'var(--shadow)',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ ...styles.iconBadge, background: subj.bg, color: subj.color }}>
+        {subj.icon}
+      </div>
+      <div style={styles.cardTop}>
+        <h3 style={{ ...styles.cardName, color: hovered ? subj.color : 'var(--dark-2)' }}>
+          {subj.name}
+        </h3>
+        <span style={styles.grades}>{subj.grades}</span>
+      </div>
+      <p style={styles.desc}>{subj.desc}</p>
+      <div style={styles.tags}>
+        {subj.tags.map(t => (
+          <span key={t} style={{ ...styles.tag, background: subj.bg, color: subj.color }}>
+            {t}
+          </span>
+        ))}
+      </div>
+      <Link
+        to="/tutors"
+        style={{
+          ...styles.link,
+          color: subj.color,
+          borderColor: subj.border,
+          background: hovered ? subj.bg : 'transparent',
+        }}
+      >
+        Find a Tutor →
+      </Link>
     </div>
   )
 }
 
 export default function Subjects() {
-  const titleRef = useFadeIn({ delay: 0, distance: 16 })
+  const headRef = useFadeIn({ delay: 0, distance: 16 })
 
   return (
     <section style={styles.section} id="subjects">
-      <div ref={titleRef} style={styles.titleRow}>
-        <div style={styles.rule} />
-        <h2 style={styles.title}>Subjects Offered</h2>
-        <div style={styles.rule} />
-      </div>
+      <div style={styles.inner}>
+        <div ref={headRef} style={styles.head}>
+          <span style={styles.eyebrow}>What we teach</span>
+          <h2 style={styles.title}>Subjects we cover</h2>
+          <p style={styles.sub}>
+            Expert tutors matched to your child's curriculum, learning pace, and style.
+          </p>
+        </div>
 
-      {/* Row 1: 3 subjects */}
-      <div style={styles.row3}>
-        {SUBJECTS.slice(0, 3).map((s, i) => (
-          <SubjectCard key={s.name} name={s.name} desc={s.desc} delay={i * 100} />
-        ))}
-      </div>
-
-      <div style={styles.divider} />
-
-      {/* Row 2: 2 subjects centred */}
-      <div style={styles.row2}>
-        {SUBJECTS.slice(3).map((s, i) => (
-          <SubjectCard key={s.name} name={s.name} desc={s.desc} delay={i * 100} />
-        ))}
+        <div style={styles.grid}>
+          {SUBJECTS.map((subj, i) => (
+            <SubjectCard key={subj.name} s={subj} delay={i * 90} />
+          ))}
+          {/* CTA card */}
+          <div style={styles.ctaCard}>
+            <h3 style={styles.ctaTitle}>Don't see your subject?</h3>
+            <p style={styles.ctaBody}>
+              We're growing our team. Reach out and we'll find the right fit for your child.
+            </p>
+            <a href="/#contact" style={styles.ctaBtn}>Get in touch</a>
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
 const styles = {
-  section: {
-    background: '#fff',
-    padding: '80px 40px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 0,
-  },
-  titleRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 24,
-    width: '100%',
-    maxWidth: 1100,
-    marginBottom: 56,
+  section: { background: 'var(--light)', padding: '100px 32px' },
+  inner: { maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 56 },
+  head: { textAlign: 'center', maxWidth: 520 },
+  eyebrow: {
+    display: 'inline-block',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+    color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: 'var(--font-serif)',
-    fontWeight: 400,
-    fontSize: 'clamp(1.8rem, 3.5vw, 2.4rem)',
-    color: '#1a1a1a',
-    whiteSpace: 'nowrap',
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontWeight: 700, fontStyle: 'italic',
+    color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
   },
-  rule: {
-    flex: 1,
-    height: 1,
-    background: '#ddd',
+  sub: {
+    fontFamily: 'var(--font-sans)', fontSize: '1.05rem',
+    color: 'var(--muted)', lineHeight: 1.75,
   },
-  row3: {
+  grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: 48,
-    width: '100%',
-    maxWidth: 1100,
-  },
-  divider: {
-    width: '100%',
-    maxWidth: 1100,
-    height: 1,
-    background: '#e5ddd4',
-    margin: '56px 0',
-  },
-  row2: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: 48,
-    width: '100%',
-    maxWidth: 740,
+    gap: 24, width: '100%',
   },
   card: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    gap: 16,
-    padding: '8px 12px',
+    background: '#fff', border: '1px solid var(--border)',
+    borderRadius: 16, padding: '32px 28px',
+    display: 'flex', flexDirection: 'column', gap: 16,
+    transition: 'transform 0.22s, box-shadow 0.22s, border-color 0.22s',
+    cursor: 'default',
   },
-  cardTitle: {
-    fontFamily: 'var(--font-serif)',
-    fontWeight: 400,
-    fontSize: '1.5rem',
-    color: '#1a1a1a',
+  iconBadge: {
+    width: 52, height: 52, borderRadius: 12,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontSize: '1.5rem', fontWeight: 700, flexShrink: 0,
   },
-  cardDesc: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
-    color: '#666',
-    lineHeight: 1.7,
-    flex: 1,
+  cardTop: { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 },
+  cardName: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.25rem', fontWeight: 700, transition: 'color 0.22s',
   },
-  btn: {
-    display: 'inline-block',
-    padding: '11px 28px',
-    background: '#3db843',
+  grades: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.75rem',
+    color: 'var(--muted)', whiteSpace: 'nowrap',
+  },
+  desc: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.875rem',
+    color: 'var(--muted)', lineHeight: 1.7, flex: 1,
+  },
+  tags: { display: 'flex', flexWrap: 'wrap', gap: 6 },
+  tag: {
+    padding: '3px 10px', borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem', fontWeight: 600,
+  },
+  link: {
+    display: 'inline-flex', alignItems: 'center',
+    padding: '9px 18px', borderRadius: 8,
+    border: '1.5px solid',
+    fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600,
+    textDecoration: 'none', transition: 'background 0.2s',
+    alignSelf: 'flex-start', marginTop: 'auto',
+  },
+  ctaCard: {
+    background: 'var(--dark-2)', borderRadius: 16, padding: '32px 28px',
+    display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
+  },
+  ctaTitle: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.25rem', fontWeight: 700,
     color: '#fff',
-    borderRadius: 50,
-    fontFamily: "'Dancing Script', cursive",
-    fontWeight: 600,
-    fontSize: '1.05rem',
-    textDecoration: 'none',
-    marginTop: 4,
-    transition: 'background 0.2s, transform 0.2s',
-    boxShadow: '0 2px 8px rgba(61,184,67,0.25)',
+  },
+  ctaBody: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.875rem',
+    color: 'rgba(255,255,255,0.5)', lineHeight: 1.7,
+  },
+  ctaBtn: {
+    display: 'inline-flex', alignItems: 'center',
+    padding: '10px 22px',
+    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+    color: '#fff', borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 600,
+    textDecoration: 'none', alignSelf: 'flex-start',
+    boxShadow: '0 4px 16px rgba(34,197,94,0.3)',
   },
 }

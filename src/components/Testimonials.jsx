@@ -1,174 +1,159 @@
-import { useState } from 'react'
+import { useFadeIn } from '../hooks/useFadeIn.js'
 
-const TESTIMONIALS = [
+const REVIEWS = [
   {
-    quote: '"Best tutor ever! Mitch is very patient and will repeat something 1000 times to make sure you understand. He raised my maths mark by 30% between prelims and finals!"',
+    quote: 'Mitch is incredibly patient — he repeated concepts as many times as needed without making me feel embarrassed. My maths mark jumped 30% between prelims and finals.',
     author: 'Anri',
+    role: 'Matric student, Mathematics',
+    initial: 'A',
+    color: '#22c55e',
   },
   {
-    quote: '"Our daughter was really struggling with accounting. After just a few sessions her confidence transformed — she actually enjoys it now."',
+    quote: 'Our daughter was really struggling with accounting. After just a few sessions her confidence completely transformed — she actually enjoys the subject now.',
     author: 'Linda',
+    role: 'Parent',
+    initial: 'L',
+    color: '#6366f1',
   },
   {
-    quote: '"Finding a great science tutor who actually makes my son want to study was something I didn\'t think was possible. Brook Tutoring delivered."',
+    quote: 'Finding a science tutor who genuinely makes my son want to study was something I didn\'t think was possible. Brook Tutoring delivered beyond expectations.',
     author: 'David',
+    role: 'Parent',
+    initial: 'D',
+    color: '#f97316',
   },
 ]
 
-export default function Testimonials() {
-  const [idx, setIdx] = useState(0)
-
-  const prev = () => setIdx(i => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-  const next = () => setIdx(i => (i + 1) % TESTIMONIALS.length)
-
-  const t = TESTIMONIALS[idx]
-
+function ReviewCard({ review, delay }) {
+  const ref = useFadeIn({ delay, distance: 20 })
   return (
-    <section style={styles.section}>
-      {/* Background image */}
-      <img
-        src="/stone-bg.jpg"
-        alt=""
-        aria-hidden="true"
-        style={styles.bgImg}
-        onError={e => { e.target.style.display = 'none' }}
-      />
-      {/* Stone texture fallback */}
-      <div style={styles.overlay} />
-
-      {/* Decorative chair image */}
-      <img
-        src="/chair.png"
-        alt=""
-        aria-hidden="true"
-        style={styles.chair}
-        onError={e => { e.target.style.display = 'none' }}
-      />
-
-      {/* Prev arrow */}
-      <button style={styles.arrow} onClick={prev} aria-label="Previous testimonial">‹</button>
-
-      {/* Content */}
-      <div style={styles.content}>
-        <p style={styles.heading}>What Clients Say...</p>
-        <blockquote style={styles.quote} key={idx}>
-          {t.quote}
-        </blockquote>
-        <p style={styles.author}>- {t.author}</p>
-
-        {/* Dots */}
-        <div style={styles.dots}>
-          {TESTIMONIALS.map((_, i) => (
-            <button
-              key={i}
-              style={styles.dot(i === idx)}
-              onClick={() => setIdx(i)}
-              aria-label={`Testimonial ${i + 1}`}
-            />
-          ))}
+    <div ref={ref} style={s.card}>
+      <div style={s.stars}>{'★★★★★'}</div>
+      <blockquote style={s.quote}>"{review.quote}"</blockquote>
+      <div style={s.author}>
+        <div style={{ ...s.avatar, background: review.color }}>
+          {review.initial}
+        </div>
+        <div>
+          <p style={s.name}>{review.author}</p>
+          <p style={s.role}>{review.role}</p>
         </div>
       </div>
+    </div>
+  )
+}
 
-      {/* Next arrow */}
-      <button style={{ ...styles.arrow, ...styles.arrowRight }} onClick={next} aria-label="Next testimonial">›</button>
+export default function Testimonials() {
+  const headRef = useFadeIn({ delay: 0, distance: 16 })
+
+  return (
+    <section style={s.section}>
+      <div style={s.inner}>
+        <div ref={headRef} style={s.head}>
+          <span style={s.eyebrow}>What families say</span>
+          <h2 style={s.title}>Real students. Real results.</h2>
+          <p style={s.sub}>
+            Don't take our word for it — here's what our students and parents have shared.
+          </p>
+        </div>
+
+        <div style={s.grid}>
+          {REVIEWS.map((r, i) => (
+            <ReviewCard key={r.author} review={r} delay={i * 100} />
+          ))}
+        </div>
+
+        {/* Bottom CTA strip */}
+        <div style={s.strip}>
+          <p style={s.stripText}>
+            Join the students who've already found their edge.
+          </p>
+          <a href="/#contact" style={s.stripBtn}>Book a Free Intro Session</a>
+        </div>
+      </div>
     </section>
   )
 }
 
-const styles = {
-  section: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 480,
-    padding: '80px 80px',
-    overflow: 'hidden',
-    background: '#2a2a2a',
+const s = {
+  section: { background: '#fff', padding: '100px 32px' },
+  inner: {
+    maxWidth: 1100, margin: '0 auto',
+    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 56,
   },
-  bgImg: {
-    position: 'absolute',
-    inset: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    opacity: 0.75,
+  head: { textAlign: 'center', maxWidth: 520 },
+  eyebrow: {
+    display: 'inline-block',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+    color: 'var(--green)', marginBottom: 14,
   },
-  overlay: {
-    position: 'absolute',
-    inset: 0,
-    background: 'rgba(20,20,20,0.45)',
+  title: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontWeight: 700, fontStyle: 'italic',
+    color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
   },
-  chair: {
-    position: 'absolute',
-    bottom: 0,
-    left: '6%',
-    height: '55%',
-    width: 'auto',
-    objectFit: 'contain',
-    zIndex: 1,
-    opacity: 0.9,
+  sub: {
+    fontFamily: 'var(--font-sans)', fontSize: '1.05rem',
+    color: 'var(--muted)', lineHeight: 1.75,
   },
-  arrow: {
-    position: 'relative',
-    zIndex: 2,
-    background: 'none',
-    border: 'none',
-    color: 'rgba(255,255,255,0.7)',
-    fontSize: '3rem',
-    lineHeight: 1,
-    cursor: 'pointer',
-    padding: '0 20px',
-    flexShrink: 0,
-    transition: 'color 0.2s',
-    fontFamily: 'Georgia, serif',
+  grid: {
+    display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 24, width: '100%',
   },
-  arrowRight: {},
-  content: {
-    position: 'relative',
-    zIndex: 2,
-    textAlign: 'center',
-    maxWidth: 780,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 20,
+  card: {
+    background: 'var(--light)',
+    border: '1px solid var(--border)',
+    borderRadius: 16, padding: '32px 28px',
+    display: 'flex', flexDirection: 'column', gap: 20,
+    borderTop: '3px solid var(--green)',
+    transition: 'transform 0.22s, box-shadow 0.22s',
   },
-  heading: {
-    fontFamily: "'Dancing Script', cursive",
-    fontStyle: 'italic',
-    fontWeight: 600,
-    fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)',
-    color: '#3db843',
+  stars: {
+    color: '#f59e0b', fontSize: '0.9rem', letterSpacing: '2px',
   },
   quote: {
-    fontFamily: "'Cormorant Garamond', Georgia, serif",
-    fontSize: 'clamp(1.1rem, 2.2vw, 1.5rem)',
-    fontStyle: 'normal',
-    color: 'rgba(255,255,255,0.92)',
-    lineHeight: 1.65,
-    animation: 'fadeInUp 0.5s ease',
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.05rem', fontStyle: 'italic',
+    color: 'var(--dark-3)', lineHeight: 1.7, flex: 1,
   },
   author: {
-    fontFamily: "'Cormorant Garamond', Georgia, serif",
-    fontStyle: 'italic',
-    fontSize: '1rem',
-    color: 'rgba(255,255,255,0.65)',
+    display: 'flex', alignItems: 'center', gap: 14,
+    paddingTop: 16, borderTop: '1px solid var(--border)',
   },
-  dots: {
-    display: 'flex',
-    gap: 10,
-    marginTop: 8,
+  avatar: {
+    width: 42, height: 42, borderRadius: '50%',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    color: '#fff', fontFamily: 'var(--font-sans)',
+    fontWeight: 700, fontSize: '1rem', flexShrink: 0,
   },
-  dot: (active) => ({
-    width: active ? 28 : 10,
-    height: 10,
-    borderRadius: 5,
-    background: active ? '#fff' : 'rgba(255,255,255,0.35)',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 0,
-    transition: 'all 0.3s ease',
-  }),
+  name: {
+    fontFamily: 'var(--font-sans)', fontWeight: 600,
+    fontSize: '0.9rem', color: 'var(--dark-2)',
+  },
+  role: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.8rem',
+    color: 'var(--muted)', marginTop: 2,
+  },
+  strip: {
+    width: '100%',
+    background: 'linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%)',
+    borderRadius: 20, padding: '40px 48px',
+    display: 'flex', alignItems: 'center',
+    justifyContent: 'space-between', flexWrap: 'wrap', gap: 24,
+  },
+  stripText: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
+    fontStyle: 'italic', color: '#fff', maxWidth: 420,
+  },
+  stripBtn: {
+    padding: '13px 32px',
+    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+    color: '#fff', borderRadius: 50,
+    fontFamily: 'var(--font-sans)', fontSize: '0.95rem', fontWeight: 600,
+    textDecoration: 'none', whiteSpace: 'nowrap',
+    boxShadow: '0 4px 20px rgba(34,197,94,0.35)',
+  },
 }

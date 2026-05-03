@@ -1,99 +1,155 @@
 import { useFadeIn } from '../hooks/useFadeIn.js'
 
+const PILLARS = [
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+      </svg>
+    ),
+    color: '#22c55e',
+    bg: 'rgba(34,197,94,0.1)',
+    title: 'First Principles',
+    body: 'We break every subject down to its core so students genuinely understand — not just memorise. That understanding lasts long after the exam.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    ),
+    color: '#6366f1',
+    bg: 'rgba(99,102,241,0.1)',
+    title: 'Built Around Your Child',
+    body: 'Every lesson is tailored to how your child thinks and learns. No two students are the same — so no two lesson plans should be either.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+    ),
+    color: '#f59e0b',
+    bg: 'rgba(245,158,11,0.1)',
+    title: 'Trackable Progress',
+    body: 'Regular check-ins, session notes, and honest progress reporting keep parents informed and students accountable — without extra pressure.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    ),
+    color: '#ec4899',
+    bg: 'rgba(236,72,153,0.1)',
+    title: 'Patient, Encouraging Tutors',
+    body: 'Our tutors are handpicked for both subject knowledge and their ability to build confidence. A student who believes in themselves learns faster.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+    ),
+    color: '#14b8a6',
+    bg: 'rgba(20,184,166,0.1)',
+    title: 'Proven Results',
+    body: 'An average of 15% grade improvement across our matric students. Real outcomes from focused, consistent, personalised sessions.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+    ),
+    color: '#f97316',
+    bg: 'rgba(249,115,22,0.1)',
+    title: 'Menlyn, Pretoria Based',
+    body: 'Conveniently located in Menlyn. We offer in-person and online sessions to suit your schedule and location anywhere in Pretoria.',
+  },
+]
+
+function PillarCard({ pillar, delay }) {
+  const ref = useFadeIn({ delay, distance: 24 })
+  return (
+    <div ref={ref} style={s.card}>
+      <div style={s.iconWrap(pillar.bg, pillar.color)}>{pillar.icon}</div>
+      <h3 style={s.cardTitle}>{pillar.title}</h3>
+      <p style={s.cardBody}>{pillar.body}</p>
+    </div>
+  )
+}
+
 export default function WhatWeDo() {
-  const cardRef = useFadeIn({ delay: 100, distance: 28 })
+  const headRef = useFadeIn({ delay: 0, distance: 16 })
 
   return (
-    <section style={styles.section}>
-      {/* Teal math background */}
-      <img
-        src="/math-bg.jpg"
-        alt=""
-        aria-hidden="true"
-        style={styles.bgImg}
-        onError={e => { e.target.style.display = 'none' }}
-      />
-      <div style={styles.overlay} />
-
-      {/* Card */}
-      <div ref={cardRef} style={styles.card}>
-        <h2 style={styles.title}>What We Do</h2>
-        <p style={styles.body}>
-          Welcome to Brook Tutoring, where we are dedicated to providing student-centred,
-          personalised learning experiences. Our approach breaks down subjects to their core
-          principles, ensuring that each student gains a deep and lasting understanding. Our
-          passionate tutors foster curiosity and critical thinking, helping learners master
-          challenging concepts while exploring their real-world applications. We are committed
-          to tailoring our lessons to suit the unique learning style of each student, providing
-          the support they need to achieve and exceed their academic goals.
-        </p>
-        <a href="/tutors" style={styles.btn}>Learn More <span>›</span></a>
+    <section style={s.section}>
+      <div style={s.inner}>
+        <div ref={headRef} style={s.head}>
+          <span style={s.eyebrow}>Why Brook Tutoring</span>
+          <h2 style={s.title}>What sets us apart</h2>
+          <p style={s.sub}>
+            We don't just cover the work — we change how students relate to it.
+          </p>
+        </div>
+        <div style={s.grid}>
+          {PILLARS.map((p, i) => (
+            <PillarCard key={p.title} pillar={p} delay={i * 80} />
+          ))}
+        </div>
       </div>
     </section>
   )
 }
 
-const styles = {
-  section: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 520,
-    padding: '80px 24px',
-    overflow: 'hidden',
-    background: '#1a4a45',
-  },
-  bgImg: {
-    position: 'absolute',
-    inset: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    opacity: 0.35,
-  },
-  overlay: {
-    position: 'absolute',
-    inset: 0,
-    background: 'rgba(20,58,54,0.72)',
-  },
-  card: {
-    position: 'relative',
-    zIndex: 1,
-    background: '#fff',
-    borderRadius: 8,
-    padding: '52px 56px',
-    maxWidth: 620,
-    textAlign: 'center',
-    boxShadow: '0 8px 48px rgba(0,0,0,0.25)',
+const s = {
+  section: { background: '#fff', padding: '100px 32px' },
+  inner: { maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 56 },
+  head: { textAlign: 'center', maxWidth: 520 },
+  eyebrow: {
+    display: 'inline-block',
+    fontFamily: 'var(--font-sans)', fontSize: '0.72rem',
+    fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+    color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 600,
-    fontSize: 'clamp(1.6rem, 3vw, 2rem)',
-    color: '#1a1a1a',
-    marginBottom: 20,
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontWeight: 700, fontStyle: 'italic',
+    color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
   },
-  body: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.95rem',
-    color: '#555',
-    lineHeight: 1.8,
-    marginBottom: 32,
+  sub: {
+    fontFamily: 'var(--font-sans)', fontSize: '1.05rem',
+    color: 'var(--muted)', lineHeight: 1.75,
   },
-  btn: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 6,
-    padding: '10px 28px',
-    border: '1.5px solid #333',
-    borderRadius: 4,
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.875rem',
-    fontWeight: 400,
-    color: '#333',
-    background: 'transparent',
-    textDecoration: 'none',
-    transition: 'background 0.2s, color 0.2s',
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 24, width: '100%',
+  },
+  card: {
+    padding: '32px 28px',
+    background: 'var(--light)',
+    border: '1px solid var(--border)',
+    borderRadius: 16,
+    display: 'flex', flexDirection: 'column', gap: 14,
+    transition: 'transform 0.22s, box-shadow 0.22s',
+  },
+  iconWrap: (bg, color) => ({
+    width: 56, height: 56, borderRadius: 14,
+    background: bg, color: color,
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flexShrink: 0,
+  }),
+  cardTitle: {
+    fontFamily: "'Playfair Display', Georgia, serif",
+    fontSize: '1.15rem', fontWeight: 700,
+    color: 'var(--dark-2)',
+  },
+  cardBody: {
+    fontFamily: 'var(--font-sans)', fontSize: '0.9rem',
+    color: 'var(--muted)', lineHeight: 1.7,
   },
 }
