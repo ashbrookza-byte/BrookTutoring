@@ -183,7 +183,7 @@ const s = {
     color: 'var(--green)',
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, color: '#fff', lineHeight: 1.2,
   },
@@ -224,7 +224,7 @@ const s = {
     boxShadow: '0 24px 64px rgba(0,0,0,0.3)',
   },
   formTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.4rem', fontWeight: 700,
     color: 'var(--dark-2)', marginBottom: 28,
   },

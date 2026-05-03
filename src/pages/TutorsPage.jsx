@@ -146,7 +146,7 @@ const s = {
     color: 'var(--green)',
   },
   heroTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: '#fff', lineHeight: 1.15, marginBottom: 20,
@@ -199,7 +199,7 @@ const s = {
     padding: '24px', display: 'flex', flexDirection: 'column', gap: 12, flex: 1,
   },
   name: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.25rem', fontWeight: 700, color: 'var(--dark-2)',
   },
   grades: {
@@ -233,7 +233,7 @@ const s = {
     justifyContent: 'space-between', flexWrap: 'wrap', gap: 24,
   },
   joinTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.6rem', fontWeight: 700, fontStyle: 'italic',
     color: 'var(--dark-2)', marginBottom: 6,
   },

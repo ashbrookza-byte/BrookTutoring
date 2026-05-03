@@ -87,7 +87,7 @@ const s = {
     color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: '#fff', lineHeight: 1.2, marginBottom: 16,
@@ -148,7 +148,7 @@ const s = {
     fontWeight: 600, color: 'rgba(255,255,255,0.6)',
   },
   footerNum: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.8rem', fontWeight: 700,
     background: 'linear-gradient(135deg, #22c55e, #86efac)',
     WebkitBackgroundClip: 'text',

@@ -128,7 +128,7 @@ const s = {
   },
   titleGroup: { display: 'flex', flexDirection: 'column', gap: 0 },
   titleSerif: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2.8rem, 5.5vw, 4.8rem)',
     fontWeight: 400, fontStyle: 'italic',
     color: '#ffffff', lineHeight: 1.12,
@@ -184,7 +184,7 @@ const s = {
     transition: 'transform 0.2s',
   }),
   cardNum: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
     fontWeight: 700,
     background: 'linear-gradient(135deg, #22c55e, #86efac)',

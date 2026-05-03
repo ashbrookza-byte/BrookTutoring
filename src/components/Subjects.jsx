@@ -136,7 +136,7 @@ const styles = {
     color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
@@ -164,7 +164,7 @@ const styles = {
   },
   cardTop: { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 },
   cardName: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.25rem', fontWeight: 700, transition: 'color 0.22s',
   },
   grades: {
@@ -193,7 +193,7 @@ const styles = {
     display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
   },
   ctaTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.25rem', fontWeight: 700,
     color: '#fff',
   },

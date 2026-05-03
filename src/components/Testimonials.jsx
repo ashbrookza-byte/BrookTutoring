@@ -89,7 +89,7 @@ const s = {
     color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
@@ -114,7 +114,7 @@ const s = {
     color: '#f59e0b', fontSize: '0.9rem', letterSpacing: '2px',
   },
   quote: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.05rem', fontStyle: 'italic',
     color: 'var(--dark-3)', lineHeight: 1.7, flex: 1,
   },
@@ -144,7 +144,7 @@ const s = {
     justifyContent: 'space-between', flexWrap: 'wrap', gap: 24,
   },
   stripText: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
     fontStyle: 'italic', color: '#fff', maxWidth: 420,
   },

@@ -54,7 +54,7 @@ const s = {
     color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
@@ -79,7 +79,7 @@ const s = {
     transition: 'transform 0.22s, box-shadow 0.22s',
   },
   num: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2.2rem, 3.5vw, 3rem)',
     fontWeight: 700,
     background: 'linear-gradient(135deg, #22c55e, #16a34a)',

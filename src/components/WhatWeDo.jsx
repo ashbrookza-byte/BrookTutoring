@@ -115,7 +115,7 @@ const s = {
     color: 'var(--green)', marginBottom: 14,
   },
   title: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: 'clamp(2rem, 4vw, 2.8rem)',
     fontWeight: 700, fontStyle: 'italic',
     color: 'var(--dark-2)', lineHeight: 1.2, marginBottom: 16,
@@ -144,7 +144,7 @@ const s = {
     flexShrink: 0,
   }),
   cardTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'DM Serif Display', Georgia, serif",
     fontSize: '1.15rem', fontWeight: 700,
     color: 'var(--dark-2)',
   },
