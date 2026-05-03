@@ -8,7 +8,7 @@ const TUTORS = [
     role: 'Founder & Lead Tutor',
     subjects: ['Mathematics'],
     grades: 'Grades 10 – 12',
-    bio: 'Mitchell founded Brook Tutoring with one goal: make maths clear. He specialises in one-on-one and small group sessions, using a first-principles approach that gives students lasting confidence — not just exam-ready shortcuts.',
+    bio: 'Mitchell founded Brook Tutoring with one goal: make maths click. He specialises in one-on-one sessions using a first-principles approach — breaking problems down until the answer feels obvious, not memorised.',
     color: '#22c55e',
   },
   {
@@ -17,26 +17,44 @@ const TUTORS = [
     role: 'Senior Tutor',
     subjects: ['Mathematics', 'Science', 'Accounting'],
     grades: 'Grades 8 – 11',
-    bio: 'Anna brings warmth and rigour in equal measure. Her multi-subject expertise means she can connect concepts across disciplines, helping students see the bigger picture and build genuine academic confidence.',
+    bio: 'Anna brings warmth and rigour in equal measure. Her multi-subject expertise lets her connect concepts across disciplines, helping students see the bigger picture and build genuine academic confidence.',
     color: '#6366f1',
+  },
+  {
+    name: 'Rea Khumalo',
+    photo: '/tutors/rea.jpg',
+    role: 'Mathematics & Science Tutor',
+    subjects: ['Mathematics', 'Science'],
+    grades: 'Grades 8 – 12',
+    bio: 'Rea\'s infectious enthusiasm for STEM turns even the toughest concepts into something students genuinely enjoy. He meets every learner where they are and takes them further than they thought possible.',
+    color: '#14b8a6',
+  },
+  {
+    name: 'Jess van der Merwe',
+    photo: '/tutors/jess.jpg',
+    role: 'Language & Maths Tutor',
+    subjects: ['Mathematics', 'English', 'Afrikaans'],
+    grades: 'Grades 6 – 11',
+    bio: 'Jess has a rare gift for making language and maths feel equally approachable. Her calm, structured lessons give students the vocabulary and number confidence they need to perform under pressure.',
+    color: '#f59e0b',
   },
   {
     name: 'Shani Roodt',
     photo: '/tutors/shani.jpg',
-    role: 'Language & Maths Tutor',
-    subjects: ['Mathematics', 'Afrikaans', 'English'],
+    role: 'Language Tutor',
+    subjects: ['Afrikaans', 'English'],
     grades: 'Grades 6 – 10',
-    bio: 'Shani\'s gentle, nurturing style creates a safe space for students to struggle productively. She guides learners through complex equations and language challenges with the same patient dedication.',
-    color: '#f97316',
+    bio: 'Shani\'s nurturing style creates a safe space for students to grow. She guides learners through language challenges with patient dedication, building both comprehension and the confidence to express themselves clearly.',
+    color: '#ec4899',
   },
 ]
 
 const SUBJECT_COLORS = {
-  'Mathematics': { bg: 'rgba(34,197,94,0.1)', color: '#16a34a' },
-  'Science':     { bg: 'rgba(99,102,241,0.1)', color: '#6366f1' },
-  'Accounting':  { bg: 'rgba(20,184,166,0.1)', color: '#14b8a6' },
-  'Afrikaans':   { bg: 'rgba(245,158,11,0.1)', color: '#d97706' },
-  'English':     { bg: 'rgba(249,115,22,0.1)', color: '#ea580c' },
+  'Mathematics': { bg: 'rgba(34,197,94,0.1)',   color: '#16a34a' },
+  'Science':     { bg: 'rgba(99,102,241,0.1)',  color: '#6366f1' },
+  'Accounting':  { bg: 'rgba(20,184,166,0.1)',  color: '#0d9488' },
+  'Afrikaans':   { bg: 'rgba(245,158,11,0.1)',  color: '#d97706' },
+  'English':     { bg: 'rgba(249,115,22,0.1)',  color: '#ea580c' },
 }
 
 function TutorCard({ tutor, delay }) {
@@ -160,7 +178,9 @@ const s = {
   },
   grid: {
     maxWidth: 1100, margin: '0 auto',
-    display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 28,
   },
   card: {
     background: '#fff',
